@@ -30,9 +30,14 @@ async function createProduct(req, res, next) {
 
 async function getProducts(req, res, next) {
 
+  let resPerPage = 5
+
   let apiFilters = new APIFilters(Product, req.query).search().filters()
   let products = await apiFilters.query
   let totalproducts = products.length
+  apiFilters.pagination(resPerPage)
+  products = await apiFilters.query.clone()
+  console.log(products)
   
 
   // let products = await Product.find()

@@ -9,10 +9,13 @@ async function registerUser(req, res, next) {
     name,
     email,
     password
-  })
+ })
+  let token = user.getJwtToken()
+  console.log(token)
 
   res.status(201).json({
-    message: 'User Registered in DB successfully'
+    message: 'User Registered in DB successfully',
+    token
   })
   
 }
