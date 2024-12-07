@@ -48,6 +48,10 @@ userSchema.methods.getJwtToken = function() {
 return  jwt.sign({id: this._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRY_TIME})
 }
 
+userSchema.methods.comparePassword = async function (enteredPassoword) {
+ return  await bcrypt.compare(enteredPassoword, this.password)
+}
+
 
 let User = mongoose.model('Users', userSchema)
 

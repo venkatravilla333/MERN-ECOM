@@ -4,9 +4,11 @@ let connectWithDB = require('./db.js')
 let productRoutes = require('./routes/productRoutes.js')
 let userRoutes = require('./routes/userRoutes.js')
 const errorMiddleware = require('./middlewares/errorMiddleware.js')
+const cookieParser = require('cookie-parser')
 
 let app = express()
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/api', productRoutes)
 app.use('/api', userRoutes)
