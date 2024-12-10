@@ -4,6 +4,8 @@ require('dotenv').config()
 let bcrypt = require('bcrypt')
 let jwt = require('jsonwebtoken')
 
+let crypto = require('crypto')
+
 
 let userSchema = new mongoose.Schema({
   name: {
@@ -52,6 +54,22 @@ userSchema.methods.comparePassword = async function (enteredPassoword) {
  return  await bcrypt.compare(enteredPassoword, this.password)
 }
 
+
+//generate forget password token
+
+userSchema.methods.getResetPasswordToken = function () {
+  let generateToken = crypto.randomBytes(15).toString('hex')
+
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(generateToken)
+    .digest('hex')
+  //reset password expire
+
+  this.resetPasswordExpire = new Date(Date.now) + 30 * 60 * 1000 
+  
+  return generateToken
+}
 
 let User = mongoose.model('Users', userSchema)
 

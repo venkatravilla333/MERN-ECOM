@@ -62,4 +62,18 @@ async function loginUser(req, res, next) {
   
 }
 
-module.exports = { registerUser, loginUser }
+//controller for user logout
+
+async function logoutUser(req, res, next) {
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true
+  })
+
+  res.status(200).json({
+    message: 'Logged out user'
+  })
+
+ }
+
+module.exports = { registerUser, loginUser, logoutUser }

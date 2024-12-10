@@ -11,6 +11,9 @@ const ErrorHandler = require("../utils/errorHandler.js")
 //controller for create product in db
 
 async function createProduct(req, res, next) {
+
+   req.body.user = req.user._id
+    
   let product = await Product.create(req.body)
   if (!product) {
     // res.status(404).json({
