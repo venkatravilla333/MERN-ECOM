@@ -1,6 +1,8 @@
 
 let User = require('../models/userModel.js')
 let ErrorHandler = require('../utils/errorHandler.js')
+const sendEmail = require('../utils/sendEmail.js')
+const sendEmailTemplate = require('../utils/sendEmailTemplate.js')
 const sendToken = require('../utils/sendToken.js')
 
 //controller for user register
@@ -62,6 +64,48 @@ async function loginUser(req, res, next) {
   
 }
 
+
+//controller for forget password
+
+async function forgetPassword(req, res, next) {
+
+  let user = await User.findOne({ email: req.body.email})
+  
+  if (!user) {
+   return next(new ErrorHandler('user is not available in db', 404))
+  }
+  
+  let resetToken = user.getResetPasswordToken()
+
+  await user.save()
+
+  let resetUrl = `${process.env.FROTNEND_URL}/api/password/forget${resetToken}`
+ 
+  let message = sendEmailTemplate(user.name, resetUrl)
+
+  try {
+
+   await sendEmail({
+     email: user.email,
+     subject: 'Recovery forget password',
+     message: message
+   })
+    
+    return res.status(200).json({
+      message: `reset password:  ${user.name}`
+    })
+    
+  } catch (error) {
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpire = undefined
+    await user.save()
+    return next(new ErrorHandler(error.message, 500))
+      
+  }
+  
+  
+}
+
 //controller for user logout
 
 async function logoutUser(req, res, next) {
@@ -76,4 +120,4 @@ async function logoutUser(req, res, next) {
 
  }
 
-module.exports = { registerUser, loginUser, logoutUser }
+module.exports = { registerUser, loginUser, logoutUser, forgetPassword }

@@ -38,7 +38,7 @@ let userSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 userSchema.pre('save', async function (next) {
-  if (!this.isModified) {
+  if (!this.isModified("password")) {
     next()
   }
   this.password = await bcrypt.hash(this.password, 10)
@@ -58,17 +58,17 @@ userSchema.methods.comparePassword = async function (enteredPassoword) {
 //generate forget password token
 
 userSchema.methods.getResetPasswordToken = function () {
-  let generateToken = crypto.randomBytes(15).toString('hex')
+  let resetToken = crypto.randomBytes(15).toString('hex')
 
   this.resetPasswordToken = crypto
     .createHash('sha256')
-    .update(generateToken)
+    .update(resetToken)
     .digest('hex')
   //reset password expire
 
-  this.resetPasswordExpire = new Date(Date.now) + 30 * 60 * 1000 
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000 
   
-  return generateToken
+  return resetToken
 }
 
 let User = mongoose.model('Users', userSchema)
