@@ -155,6 +155,29 @@ async function getUserProfile(req, res, next) {
     user
   })
 }
+
+//controller for update password
+
+async function updatePassword(req, res, next) {
+
+  let user = await User.findById(req.user._id).select('+password')
+
+  let isPasswordMatched = await user.comparePassword(req.body.oldPassword)
+
+  if (!isPasswordMatched) {
+     return next(new ErrorHandler('old password is not matched', 400))
+  }
+
+  user.password = req.body.password
+
+  user.save()
+
+  return res.status(200).json({
+    message: 'updated password successfully'
+  })
+
+
+ }
  
 //controller for delete userProfile
 
@@ -196,6 +219,79 @@ async function logoutUser(req, res, next) {
     message: 'Logged out user'
   })
 
- }
+}
+ 
+//admin routes
 
-module.exports = { registerUser, loginUser, logoutUser, forgetPassword, resetPassword , getUserProfile, deleteUserProfile, updateUserProfile}
+//controller for getting all users (admin route)
+
+async function getAllUsers(req, res, next) {
+     
+  let users = await User.find()
+
+  return res.status(200).json({
+    users
+  })
+
+}
+ 
+//controller for getting each user details (admin route)
+
+async function getUserDetails(req, res, next) {
+     
+  let user = await User.findById(req.params.id)
+
+  if (!user) {
+     return next(new ErrorHandler('user not found with given id', 404))
+  }
+
+  return res.status(200).json({
+    user
+  })
+
+}
+
+//controller for deleting each user  (admin route)
+
+async function deleteUser(req, res, next) {
+     
+  let user = await User.findById(req.params.id)
+
+  if (!user) {
+     return next(new ErrorHandler('user not found with given id', 404))
+  }
+
+  await user.deleteOne()
+
+  return res.status(200).json({
+    message: "user deleted successfully"
+  })
+
+}
+
+
+//controller for update user  (admin route)
+
+async function updateUser(req, res, next) {
+     
+  let newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role
+  }
+
+ let user = await User.findByIdAndUpdate(req.params.id, newUserData, {new: true})
+
+  if (!user) {
+     return next(new ErrorHandler('user not found with given id', 404))
+  }
+
+  return res.status(200).json({
+   user
+  })
+
+}
+
+
+
+module.exports = { registerUser, loginUser, logoutUser, forgetPassword, resetPassword , getUserProfile, updatePassword,  deleteUserProfile, updateUserProfile, getAllUsers, getUserDetails, deleteUser, updateUser}

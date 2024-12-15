@@ -1,6 +1,6 @@
 let express = require('express')
-let { registerUser, loginUser, logoutUser, forgetPassword, resetPassword, getUserProfile, deleteUserProfile, updateUserProfile } = require('../controllers/userController.js')
-const { isAuthenticatedUser } = require('../middlewares/auth.js')
+let { registerUser, loginUser, logoutUser, forgetPassword, resetPassword, getUserProfile, deleteUserProfile, updateUserProfile, updatePassword, getAllUsers, getUserDetails, deleteUser, updateUser } = require('../controllers/userController.js')
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth.js')
 
 
 let router = express.Router()
@@ -12,8 +12,16 @@ router.route('/password/forget').post(forgetPassword)
 router.route('/password/reset/:token').put(resetPassword)
 
 router.route('/getuser').get(isAuthenticatedUser, getUserProfile)
+router.route('/password/update').put(isAuthenticatedUser, updatePassword)
 router.route('/deleteuser').delete(isAuthenticatedUser, deleteUserProfile)
 router.route('/updateuser').put(isAuthenticatedUser, updateUserProfile)
+
+router.route('/admin/users').get(isAuthenticatedUser, authorizeRoles('admin'), getAllUsers)
+
+router.route('/admin/user/:id')
+  .get(isAuthenticatedUser, authorizeRoles('admin'), getUserDetails)
+  .delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser)
+  .put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
 
 
 module.exports = router
