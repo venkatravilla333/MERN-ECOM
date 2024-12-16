@@ -13,7 +13,7 @@ let orderSchema = new mongoose.Schema({
       required: true
     },
     phoneNo: {
-      type: Number,
+      type: String,
       required: true,
     },
     zipCode: {
@@ -95,9 +95,7 @@ let orderSchema = new mongoose.Schema({
     status: String
   },
 
-  deliveredAt: {
-    type: Date
-  }
+  deliveredAt: Date
 
 }, { timestamps: true })
 

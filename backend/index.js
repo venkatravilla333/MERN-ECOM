@@ -3,6 +3,7 @@ require('dotenv').config()
 let connectWithDB = require('./db.js')
 let productRoutes = require('./routes/productRoutes.js')
 let userRoutes = require('./routes/userRoutes.js')
+let orderRoutes = require('./routes/orderRoutes.js')
 const errorMiddleware = require('./middlewares/errorMiddleware.js')
 const cookieParser = require('cookie-parser')
 
@@ -12,6 +13,7 @@ app.use(cookieParser())
 
 app.use('/api', productRoutes)
 app.use('/api', userRoutes)
+app.use('/api', orderRoutes)
 
 
 process.on('uncaughtException',(err) => {
