@@ -106,4 +106,68 @@ async function deleteProduct(req, res) {
   })
 }
 
-module.exports = { createProduct, getProducts, getProductDetails, updateProduct, deleteProduct}
+
+
+//controller for create/update reveiw
+
+async function createReview(req, res, next) {
+
+  let { rating, comment, productId } = req.body
+  console.log(req.body)
+  
+  let review = {
+    user: req.user._id,
+    rating: Number(rating),
+    comment
+  }
+
+  let product = await Product.findById(productId)
+  console.log(product)
+
+  if (!product) {
+    return next(new ErrorHandler('product not found', 404))
+  }
+
+  let isReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString())
+
+  console.log('hello', isReviewed)
+  
+  if (isReviewed) {
+    product.reviews.forEach((reveiw) => {
+      if (reveiw.user.toString() === req.user._id.toString()) {
+        reveiw.rating = rating
+        reveiw.comment = comment
+      }
+    })
+    
+  } else {
+    console.log('else')
+    product.reviews.push(review)
+    product.noOfReviews = product.reviews.length
+    // console.log(product.reviews)
+    // console.log(product.noOfReviews)
+  }
+
+  product.ratings = product.reviews.reduce((acc, item) => {
+    (item.rating + acc) / product.reviews.length
+  }, 0)
+
+  await product.save({validateBeforeSave: false})
+  
+  return res.status(200).json({
+   success: true
+ })
+}
+
+//controller for getting all reviews
+
+async function getReviews(req, res, next) {
+  let product = await Product.findById(req.query.id)
+  console.log('allreviews', product)
+  return res.status(200).json({
+    reviews: product.reviews
+  })
+ }
+
+
+module.exports = { createProduct, getProducts, getProductDetails, updateProduct, deleteProduct, createReview, getReviews}

@@ -36,25 +36,26 @@ let productSchema = new mongoose.Schema({
     required: [true, 'please provide stock']
   },
   
-  reviews: {
+  reviews: [{
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: false
+      required: true
     },
     rating: {
       type: Number,
-      required: false
+      required: true
     },
     comment: {
       type: String,
-      required: false
+      required: true
     }
-  },
+  }],
   noOfReviews: {
     type: Number,
     default: 0
-  },
+    },
+  
   ratings: {
     type: Number,
     default: 0
