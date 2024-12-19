@@ -148,14 +148,16 @@ async function createReview(req, res, next) {
     // console.log(product.noOfReviews)
   }
 
-  product.ratings = product.reviews.reduce((acc, item) => {
-    (item.rating + acc) / product.reviews.length
-  }, 0)
+  console.log(product.reviews.length )
+
+  product.ratings = product.reviews.rating === 0 ? 0 : product.reviews.reduce((acc, review) => review.rating + acc, 0) / product.reviews.length
+  
 
   await product.save({validateBeforeSave: false})
   
   return res.status(200).json({
-   success: true
+    success: true,
+    product
  })
 }
 
@@ -170,4 +172,40 @@ async function getReviews(req, res, next) {
  }
 
 
-module.exports = { createProduct, getProducts, getProductDetails, updateProduct, deleteProduct, createReview, getReviews}
+//controller for deleteReview (admin)
+
+async function deleteReview(req, res, next) {
+
+  let product = await Product.findById(req.query.productId)
+  console.log(product)
+
+  if (!product) {
+     return next(new ErrorHandler('product not found', 404))
+  }
+
+  let reviews = product.reviews.filter((reveiw) => {
+    return reveiw._id.toString() !== req.query.id.toString()
+  })
+
+  let noOfReviews = reviews.length
+
+  let ratings = noOfReviews === 0 ? 0 :  product.reviews.reduce((acc, item) => {
+   return  (item.rating+acc)/noOfReviews
+  }, 0)
+
+  product = await Product.findByIdAndUpdate(
+    req.query.productId,
+    { reviews, noOfReviews, ratings },
+    {new: true}
+  )
+
+  return res.status(200).json({
+    success: true,
+    product
+  })
+
+ }
+ 
+
+
+module.exports = { createProduct, getProducts, getProductDetails, updateProduct, deleteProduct, createReview, getReviews, deleteReview}
