@@ -1,12 +1,12 @@
 
+
 import reactdom from 'react-dom'
 import App from './App'
 
 
-var root = document.getElementById('root')
 
-var parent = reactdom.createRoot(root)
+let parent = reactdom.createRoot(document.getElementById('root'))
 
-parent.render(<App/>)
+parent.render(App())
 
 
