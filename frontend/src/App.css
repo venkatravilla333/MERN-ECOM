@@ -1,0 +1,27 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+
+.myinput{
+   width: 600px !important;
+}
+
+.footer{
+  min-height: 50px ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+ 
+}
+
+.home{
+  min-height: 460px;
+}
+
+.card{
+  max-width: 300px;
+  max-height: 300px;
+}
