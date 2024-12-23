@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
     <div className='footer'>
-      <p>&copy; REYANSOFT 2025</p>
+      <p className='mb-0'>&copy; REYANSTORE 2025</p>
     </div>
   )
 }

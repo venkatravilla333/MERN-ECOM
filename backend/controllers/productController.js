@@ -11,6 +11,7 @@ const ErrorHandler = require("../utils/errorHandler.js")
 //controller for create product in db
 
 async function createProduct(req, res, next) {
+  
 
    req.body.user = req.user._id
     
@@ -34,7 +35,7 @@ async function createProduct(req, res, next) {
 async function getProducts(req, res, next) {
 
   let resPerPage = 5
-
+  
   let apiFilters = new APIFilters(Product, req.query).search().filters()
   let products = await apiFilters.query
   let totalproducts = products.length
@@ -42,7 +43,6 @@ async function getProducts(req, res, next) {
   products = await apiFilters.query.clone()
   console.log(products)
   
-
   // let products = await Product.find()
   if (!products) {
     // res.status(404).json({
@@ -182,6 +182,7 @@ async function deleteReview(req, res, next) {
   if (!product) {
      return next(new ErrorHandler('product not found', 404))
   }
+
 
   let reviews = product.reviews.filter((reveiw) => {
     return reveiw._id.toString() !== req.query.id.toString()

@@ -1,18 +1,33 @@
 import React from 'react'
 
+import '../app.css'
+import { useGetProductsQuery } from '../redux/api/productsApi'
+import ProductItem from './product/ProductItem'
+import Loader from './layout/Loader'
+
+import toast from 'react-hot-toast';
+
 function Home() {
+
+  let {data, isLoading, isError, error}  = useGetProductsQuery()
+  console.log(data?.products)
+  
+
+  if (isLoading) {
+    return <Loader/>
+  }
+
+  if (isError) {
+    toast.error(error.data.message)
+  }
+  
   return (
-  <div className='home'>
-    <div class="card">
-        <img src="..." class="card-img-top" alt="..."></img>
-    <div class="card-body">     
-         <h5 class="card-title">Product name</h5>
-         <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <a href="#" class="card-link">Card link</a>
-           <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
+    <div className='home row'>
+      {
+        data?.products?.map((product) => {
+          return <ProductItem key={product._id} product={product} />
+        })
+      }
       </div>
   )
 }
