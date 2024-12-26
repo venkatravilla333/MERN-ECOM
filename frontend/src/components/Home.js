@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import '../app.css'
 import { useGetProductsQuery } from '../redux/api/productsApi'
@@ -13,12 +13,15 @@ function Home() {
   console.log(data?.products)
   
 
+  
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.data.message)
+    }
+  }, [isError])
+  
   if (isLoading) {
     return <Loader/>
-  }
-
-  if (isError) {
-    toast.error(error.data.message)
   }
   
   return (

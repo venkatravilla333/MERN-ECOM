@@ -30,3 +30,18 @@
 .nav-item{
   margin-left: 20px !important;
 }
+
+.image{
+  width: 90%;
+}
+
+.greenColor{
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}
+.redColor{
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+}
