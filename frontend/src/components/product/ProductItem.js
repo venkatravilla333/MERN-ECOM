@@ -3,10 +3,11 @@ import React from 'react'
 import StarRatings from 'react-star-ratings';
 import {Link} from 'react-router-dom'
 
-function ProductItem({product}) {
+function ProductItem({ product }) {
+  console.log(product)
   return (
     <div className="card">
-        <img src="..." className="card-img-top" alt="..."></img>
+     <img src={product?.images[0].url} className="card-img-top" alt="..." width="250px" height="150px"></img>
       <div className="card-body">    
         <h5>
           <Link className='link' to={`/product/${product._id}`}>{product.name}</Link>

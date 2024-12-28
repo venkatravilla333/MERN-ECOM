@@ -32,6 +32,7 @@ async function registerUser(req, res, next) {
 async function loginUser(req, res, next) {
 
   let { email, password } = req.body
+  console.log(req.body)
 
   if (!email || !password) {
    return next(new ErrorHandler('Please enter email & password', 400))

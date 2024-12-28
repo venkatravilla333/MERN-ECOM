@@ -19,7 +19,7 @@ let productSchema = new mongoose.Schema({
     {
       public_id: {
         type: String,
-        required: true
+        // required: true
       },
       url: {
         type: String,

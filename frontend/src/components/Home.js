@@ -6,10 +6,17 @@ import ProductItem from './product/ProductItem'
 import Loader from './layout/Loader'
 
 import toast from 'react-hot-toast';
+import CustomPagination from './layout/CustomPagination'
+import { useSearchParams } from 'react-router-dom'
 
 function Home() {
+   let [searchParams] = useSearchParams()
 
-  let {data, isLoading, isError, error}  = useGetProductsQuery()
+  let page = Number(searchParams.get("page")) || 1
+
+  let param = { page }
+  
+  let {data, isLoading, isError, error}  = useGetProductsQuery(param)
   console.log(data?.products)
   
 
@@ -31,6 +38,11 @@ function Home() {
           return <ProductItem key={product._id} product={product} />
         })
       }
+
+      <div>
+        <CustomPagination resPerPage={data?.resPerPage} filteredProductsCount={data?.totalproducts } />
+      </div>
+      
       </div>
   )
 }

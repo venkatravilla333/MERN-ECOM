@@ -13,7 +13,8 @@ const ErrorHandler = require("../utils/errorHandler.js")
 async function createProduct(req, res, next) {
   
 
-   req.body.user = req.user._id
+  req.body.user = req.user._id
+  console.log('hello', res.body)
     
   let product = await Product.create(req.body)
   if (!product) {
@@ -38,8 +39,8 @@ async function getProducts(req, res, next) {
   
   let apiFilters = new APIFilters(Product, req.query).search().filters()
   let products = await apiFilters.query
-  let totalproducts = products.length
   apiFilters.pagination(resPerPage)
+  let totalproducts = products.length
   products = await apiFilters.query.clone()
   console.log(products)
   
@@ -51,6 +52,7 @@ async function getProducts(req, res, next) {
     return next(new ErrorHandler('Products not found', 404))
   }
   res.status(200).json({
+    resPerPage,
     totalproducts,
     products
   })
