@@ -6,8 +6,8 @@ import {Link} from 'react-router-dom'
 function ProductItem({ product }) {
   console.log(product)
   return (
-    <div className="card">
-     <img src={product?.images[0].url} className="card-img-top" alt="..." width="250px" height="150px"></img>
+    <div className="card my-3">
+     <img src={product?.images[0].url} className="card-img-top p-1 " alt="..." width="230px" height="150px"></img>
       <div className="card-body">    
         <h5>
           <Link className='link' to={`/product/${product._id}`}>{product.name}</Link>

@@ -36,7 +36,7 @@ function ProductDetails() {
     <div className='container border'>
      
       <div className="row mt-4 border border-danger">
-        <div className='col-6'>
+        <div className='col-6 p-4'>
           <div>
             <img src={activeImage} alt="" width="470px" height="400px"/>
           </div>

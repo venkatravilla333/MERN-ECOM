@@ -1,6 +1,7 @@
 import React from 'react'
 
 import '../../app.css'
+import Search from './Search'
 
 function Header() {
   return (
@@ -11,11 +12,7 @@ function Header() {
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse col-8" id="navbarSupportedContent">
-        <form className="d-flex" role="search">
-        <input className="form-control me-2 myinput" type="search" placeholder="Search Products" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        
+        <Search/>
           <div className='col-2 mx-auto'>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
