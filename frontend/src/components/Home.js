@@ -16,7 +16,13 @@ function Home() {
   let page = Number(searchParams.get("page")) || 1
   let keyword = searchParams.get("keyword") || ""
 
-  let param = { page, keyword }
+  let min = searchParams.get('min')
+  let max = searchParams.get('max')
+
+  let param = { page, keyword}
+
+  min !== null && (param.min = min)
+  max !== null && (param.max = max)
   
   let {data, isLoading, isError, error}  = useGetProductsQuery(param)
   console.log(data?.products)
@@ -41,7 +47,7 @@ function Home() {
       <div className='col-9'>
       <h3  className='my-2'>
         {
-          keyword ? `All products based on your seach keyword (${keyword}) : ${data?.products?.length} products` : "Recenet products"
+          keyword ? `All products based on your seach keyword (${keyword}) : ${data?.products?.length} products` : "Latest products"
          }
         </h3>
         <div className='d-flex'>

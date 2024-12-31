@@ -38,14 +38,14 @@ function ProductDetails() {
       <div className="row mt-4 border border-danger">
         <div className='col-6 p-4'>
           <div>
-            <img src={activeImage} alt="" width="470px" height="400px"/>
+            <img src={activeImage} alt="" width="100%" height="420px" className='rounded'/>
           </div>
           <div className='row mt-4'>
             {
               product?.images?.map((image) => {
-               return <div className='col-4'>
-                       <img src={image?.url} alt="" width="100px" height="100px" className={`${activeImage === image?.url ? "border border-4 border-info" : ""}`}
-                        onMouseOver={()=>setActiveImage(image?.url)}
+               return <div className='col-3'>
+                       <img src={image?.url} alt="" width="100px" height="100px" className={`${activeImage === image?.url ? "border border-2 border-info rounded" : ""}`}
+                        onMouseOver={()=>setActiveImage(image?.url)} 
                  />
                       </div>
               })
