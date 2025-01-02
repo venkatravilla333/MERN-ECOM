@@ -18,11 +18,15 @@ function Home() {
 
   let min = searchParams.get('min')
   let max = searchParams.get('max')
+  let category = searchParams.get('category')
+  let ratings = searchParams.get('ratings')
 
   let param = { page, keyword}
 
   min !== null && (param.min = min)
   max !== null && (param.max = max)
+  category !== null && (param.category = category)
+  ratings!== null && (param.ratings = ratings)
   
   let {data, isLoading, isError, error}  = useGetProductsQuery(param)
   console.log(data?.products)
