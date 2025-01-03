@@ -6,6 +6,8 @@ import { Toaster } from 'react-hot-toast';
 
 import './app.css'
 import ProductDetails from './components/product/ProductDetails';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 let App = () => {
   return (
@@ -16,6 +18,8 @@ let App = () => {
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/product/:id' element={<ProductDetails/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/register' element={<Register/>} />
         </Routes>
         <Footer/>
       </Router>
