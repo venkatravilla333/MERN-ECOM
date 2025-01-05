@@ -2,8 +2,18 @@ import React from 'react'
 
 import '../../app.css'
 import Search from './Search'
+import { useGetUserQuery } from '../../redux/api/userApi'
+import { useSelector } from 'react-redux'
+
 
 function Header() {
+
+  let { isLoading } = useGetUserQuery()
+  
+  let { user } = useSelector((state) => state.auth)
+  console.log(user)
+
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div className="container-fluid row">
@@ -18,10 +28,10 @@ function Header() {
           <li className="nav-item">
           <a className="nav-link active" aria-current="page" href="#">Cart</a>
           </li>
-        
-        <li className="nav-item dropdown">
+        {
+          user ?  <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            User
+            {user.name}
           </a>
           <ul className="dropdown-menu">
             <li><a className="dropdown-item" href="#">Profile</a></li>
@@ -29,12 +39,14 @@ function Header() {
             <li><hr className="dropdown-divider"/></li>
             <li><a className="dropdown-item" href="#">Logout</a></li>
           </ul>
-            </li>
-            <li className="nav-item">
-          <a className="nav-link" href="#">Login</a>
-        </li>
+        </li> : !isLoading && <li className="nav-item">
+                 <a className="nav-link" href="#">Login</a>
+               </li>  
+        }
        
-      </ul>
+           
+       
+        </ul>
           </div>   
     </div>
     </div>
