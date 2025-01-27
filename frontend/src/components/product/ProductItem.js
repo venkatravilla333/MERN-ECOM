@@ -1,32 +1,48 @@
-import React from 'react'
 
+import React from 'react';
+import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-import {Link} from 'react-router-dom'
 
-function ProductItem({ product }) {
-  console.log(product)
+const ProductItem = ({ product }) => {
   return (
-    <div className="card my-3">
-     <img src={product?.images[0].url} className="card-img-top p-1 " alt="..." width="230px" height="150px"></img>
-      <div className="card-body">    
-        <h5>
-          <Link className='link' to={`/product/${product._id}`}>{product.name}</Link>
-        </h5>
-        
-        <StarRatings
-          rating={product.ratings}
-          starRatedColor="gold"
-          numberOfStars={5}
-          name='rating'
-          starDimension='22px'
-          starSpacing='1px'
+    <div className="col-lg-3 col-md-4 col-sm-6 col-12 my-1 mx-4">
+      <div className="card h-100">
+        <img
+          src={product?.images[0]?.url}
+          className="card-img-top p-1"
+          alt={product.name}
+          style={{ width: '100%', height: '160px',  }}
         />
-        <span>{product.ratings }</span>
-        <h5>{product.price}</h5>
-        <Link to={`/product/${product._id}`} className="card-link bg-dark p-1 border rounded link">Product Info</Link>
+        <div className="card-body d-flex flex-column">
+          <h5 className="card-title">
+            <Link className="link text-primary" to={`/product/${product._id}`}>
+              {product.name}
+            </Link>
+          </h5>
+          <div className="mb-2">
+            <StarRatings
+              rating={product.ratings}
+              starRatedColor="gold"
+              numberOfStars={5}
+              name="rating"
+              starDimension="22px"
+              starSpacing="1px"
+            />
+            <span className="ms-2">{product.ratings}</span>
           </div>
+          <h5 className="mt-auto">₹{product.price}</h5>
+          <Link
+            to={`/product/${product._id}`}
+            className="btn btn-primary mt-2 fw-bolder"
+          >
+            Product Info
+          </Link>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductItem
+export default ProductItem;
+
+

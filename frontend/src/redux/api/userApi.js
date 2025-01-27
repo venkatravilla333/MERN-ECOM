@@ -5,6 +5,7 @@ import { setIsAuthencated, setUser } from '../slices/userSlice'
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  tagTypes : ["User"],
   endpoints: (builder) => ({
     getUser: builder.query({
       query: () => '/getuser',
@@ -17,9 +18,20 @@ export const userApi = createApi({
         } catch (error) {
           console.log(error)
         }
-      }
+      },
+     providesTags: ["User"]
     }),
+    updateProfile: builder.mutation({
+      query(body) {
+        return {
+          url: '/updateuser',
+          method: "PUT",
+          body
+        }
+      },
+     invalidatesTags: ["User"]
+    })
   })
 })
 
-export const { useGetUserQuery } = userApi
+export const { useGetUserQuery, useUpdateProfileMutation } = userApi

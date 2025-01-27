@@ -50,8 +50,8 @@ userSchema.methods.getJwtToken = function() {
 return  jwt.sign({id: this._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRY_TIME})
 }
 
-userSchema.methods.comparePassword = async function (enteredPassoword) {
- return  await bcrypt.compare(enteredPassoword, this.password)
+userSchema.methods.comparePassword = async function (enteredPassword) {
+ return  await bcrypt.compare(enteredPassword, this.password)
 }
 
 
@@ -66,7 +66,7 @@ userSchema.methods.getResetPasswordToken = function () {
     .digest('hex')
   //reset password expire
 
-  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000 
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000
   
   return resetToken
 }
@@ -74,5 +74,8 @@ userSchema.methods.getResetPasswordToken = function () {
 let User = mongoose.model('Users', userSchema)
 
 module.exports = User
+
+
+
 
 

@@ -17,13 +17,15 @@ async function registerUser(req, res, next) {
     email,
     password
  })
-  let token = user.getJwtToken()
-  console.log(token)
+  console.log(user)
+  // let token = await user.getJwtToken()
+  // console.log('hello', token)
 
-  res.status(201).json({
-    message: 'User Registered in DB successfully',
-    token
-  })
+  // res.status(201).json({
+  //   message: 'User Registered in DB successfully',
+  //   token
+  // })
+  sendToken(user, 200, res)
   
 }
 
@@ -211,13 +213,15 @@ async function updateUserProfile(req, res, next) {
 //controller for user logout
 
 async function logoutUser(req, res, next) {
+  console.log('hello')
   res.cookie('token', null, {
-    expires: new Date(Date.now()),
-    httpOnly: true
+    httpOnly: true,
+    expires: new Date(Date.now())
   })
 
   res.status(200).json({
     message: 'Logged out user'
+   
   })
 
 }

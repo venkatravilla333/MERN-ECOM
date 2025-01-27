@@ -3,19 +3,36 @@ import { useLoginMutation } from '../../redux/api/authApi'
 
 
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
 
  let [email, setEmail] = useState("")
   let [password, setPassword] = useState("")
 
-  console.log(email)
-  console.log(password)
+ let navigate = useNavigate()
 
-  let [login, { isLoading, isError, error, data }] = useLoginMutation()
+  // console.log(email)
+  // console.log(password)
+
+  let [login, { isLoading, error, data }] = useLoginMutation()
+  
+ let {isAuthenticated} = useSelector((state)=> state.auth)
   
   console.log(data)
 
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+    if (error) {
+      toast.error(error.data.message)
+    }
+  }, [error, isAuthenticated])
+
+  
   let handleLoginSubmit = (e) => {
     e.preventDefault()
 
@@ -25,12 +42,6 @@ function Login() {
     }
     login(loginData)
   }
-
-    useEffect(() => {
-    if (isError) {
-      toast.error(error.data.message)
-    }
-  }, [isError])
   
  
   
@@ -45,7 +56,7 @@ function Login() {
               <input type="email" className='form-control'
                 name='email'
                 value={email}
-                onChange={(e)=> setEmail(e.target. value)}
+                onChange={(e)=> setEmail(e.target.value)}
               />
           </div>
           <div>
@@ -61,7 +72,7 @@ function Login() {
               {isLoading ? "Authentication.." : "Login"}
           </button>
           <div>
-            <a href="" className='float-end mt-3'>New User</a>
+            <Link to="/register" className='float-end mt-3'>New User</Link>
           </div>
         </form>
       </div>

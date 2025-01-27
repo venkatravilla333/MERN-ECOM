@@ -42,7 +42,7 @@ async function getProducts(req, res, next) {
   apiFilters.pagination(resPerPage)
   let totalproducts = products.length
   products = await apiFilters.query.clone()
-  console.log(products)
+  // console.log(products)
   
   // let products = await Product.find()
   if (!products) {
@@ -56,7 +56,7 @@ async function getProducts(req, res, next) {
     totalproducts,
     products
   })
-  console.log(products)
+  // console.log(products)
 }
 
 //controller for get single product details from db
@@ -73,7 +73,7 @@ async function getProductDetails(req, res, next) {
   res.status(200).json({
     product
   })
-  console.log(product)
+  // console.log(product)
 }
 
 //controller for update product in db
@@ -89,7 +89,7 @@ async function updateProduct(req, res) {
   res.status(200).json({
     product
   })
-  console.log(product)
+  // console.log(product)
 }
 
 //controller for delete product in db
@@ -132,7 +132,7 @@ async function createReview(req, res, next) {
 
   let isReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString())
 
-  console.log('hello', isReviewed)
+  // console.log('hello', isReviewed)
   
   if (isReviewed) {
     product.reviews.forEach((reveiw) => {
@@ -150,7 +150,7 @@ async function createReview(req, res, next) {
     // console.log(product.noOfReviews)
   }
 
-  console.log(product.reviews.length )
+  // console.log(product.reviews.length )
 
   product.ratings = product.reviews.rating === 0 ? 0 : product.reviews.reduce((acc, review) => review.rating + acc, 0) / product.reviews.length
   
@@ -179,7 +179,7 @@ async function getReviews(req, res, next) {
 async function deleteReview(req, res, next) {
 
   let product = await Product.findById(req.query.productId)
-  console.log(product)
+  // console.log(product)
 
   if (!product) {
      return next(new ErrorHandler('product not found', 404))

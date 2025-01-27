@@ -8,19 +8,34 @@ import './app.css'
 import ProductDetails from './components/product/ProductDetails';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import Profile from './components/userProfile/Profile';
+import UpdateProfile from './components/userProfile/UpdateProfile';
+import ProtectedRoutes from './components/auth/ProtectedRoutes';
 
 let App = () => {
   return (
     <div className='app'>
       <Router>
        <Toaster position='top center'/>
-        <Header/>
-        <Routes>
+        <Header />
+        <main className='main'>
+          <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/product/:id' element={<ProductDetails/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/register' element={<Register/>} />
+            <Route path='/user/profile' element={
+              <ProtectedRoutes>
+                <Profile/>
+              </ProtectedRoutes> 
+            } />
+            <Route path='/user/updateprofile' element={
+              <ProtectedRoutes>
+                <UpdateProfile />
+             </ProtectedRoutes> 
+            } />
         </Routes>
+        </main>
         <Footer/>
       </Router>
 

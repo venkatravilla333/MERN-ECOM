@@ -54,14 +54,13 @@ function Home() {
           keyword ? `All products based on your seach keyword (${keyword}) : ${data?.products?.length} products` : "Latest products"
          }
         </h3>
-        <div className='d-flex'>
-
-      {
-        data?.products?.map((product) => {
-          return <ProductItem key={product._id} product={product} />
-        })
-      }
-        </div>
+        <div className="container">
+      <div className="row">
+        {data.products.map((product) => (
+          <ProductItem key={product._id} product={product} />
+        ))}
+      </div>
+    </div>
      
       </div>
 
